@@ -13,7 +13,7 @@ const (
 )
 
 func init() {
-	rand.Seed(time.Nanosecond.Nanoseconds())
+	rand.Seed(time.Now().UnixNano())
 }
 
 type Config struct {
