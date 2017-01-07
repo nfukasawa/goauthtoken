@@ -17,22 +17,22 @@ func init() {
 }
 
 type Config struct {
-	OAuth       *OAuthConfig  `json:"oauth,omitempty"`
+	OAuth       *OAuthConfig  `json:"oauth"`
 	Server      *ServerConfig `json:"local_server,omitempty"`
 	CachedToken *oauth2.Token `json:"cached_token,omitempty"`
 }
 
 type OAuthConfig struct {
 	ClientID     string   `json:"client_id"`
-	ClientSecret string   `json:"client_secret"`
+	ClientSecret string   `json:"client_secret,omitempty"`
 	AuthURL      string   `json:"auth_url"`
-	TokenURL     string   `json:"token_url"`
+	TokenURL     string   `json:"token_url,omitempty"`
 	Scopes       []string `json:"scopes"`
 	ResponseType string   `json:"response_type"`
 }
 
 type ServerConfig struct {
-	Port int `json:"port"`
+	Port int `json:"port,omitempty"`
 }
 
 func NewConfigTemplate() *Config {
@@ -74,7 +74,7 @@ func (c *Config) oauth2Config() *oauth2.Config {
 
 func (c *Config) redirectURL() string {
 	port := DefaultServerPort
-	if c.Server.Port > 0 {
+	if c.Server != nil && c.Server.Port > 0 {
 		port = c.Server.Port
 	}
 	return fmt.Sprintf("http://localhost:%d", port)
