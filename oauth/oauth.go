@@ -29,7 +29,7 @@ func Authorize(ctx context.Context, config *Config) (*Authorization, error) {
 			s := q.Get("state")
 			switch {
 			case s == "":
-				w.Write([]byte(`<script>location.href = "/auth_result?" + location.hash.substring(1);</script>`))
+				w.Write([]byte(`<script>location.href = '/auth_result?' + location.hash.substring(1);</script>`))
 			case s == state:
 				w.Write([]byte(`<script>window.open('about:blank', '_self').close();</script>`))
 				queryCh <- q
