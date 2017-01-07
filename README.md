@@ -32,6 +32,7 @@ goauthtoken -t > path/to/config.json
 
 Then, edit configuration file:
 ```
+{
   "oauth": {
     "client_id": "CLIENT_ID",
     "client_secret": "CLIENT_SECRET",
