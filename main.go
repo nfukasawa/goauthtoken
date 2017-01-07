@@ -14,7 +14,7 @@ import (
 
 type Options struct {
 	ConfigFilePath string `short:"c" long:"config" description:"configuration file path"`
-	SaveConfigFile bool   `short:"s" long:"save" description:"save authorized code and token on configuration file / use with --config"`
+	SaveConfigFile bool   `short:"s" long:"save" description:"save OAuth2 token on configuration file / use with --config"`
 	GenTemplate    bool   `short:"t" long:"template" description:"generate configuration template / exclusive with --config"`
 }
 
