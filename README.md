@@ -2,16 +2,18 @@
 
 This CLI tool retrieves OAuth2 access token.
 
-Operating environment:
+## Operating environment
 
-* Go1.8 or later
+Go1.8 or later
 
-Install:
+## Install
+
 ```
 go get github.com/nfukasawa/goauthtoken
 ```
 
-Usage:
+## Usage
+
 ```
 Usage:
   goauthtoken [OPTIONS]
@@ -31,7 +33,7 @@ goauthtoken -t > path/to/config.json
 ```
 
 Then, edit configuration file:
-```
+```json
 {
   "oauth": {
     "client_id": "CLIENT_ID",
@@ -55,3 +57,6 @@ Run command:
 ```
 goauthtoken -c=path/to/config.json -s
 ```
+## Lisence
+
+MIT
