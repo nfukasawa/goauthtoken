@@ -55,15 +55,15 @@ func (c *Config) AuthCodeURL() (url, state string) {
 	buf := make([]byte, 16)
 	rand.Read(buf)
 	state = fmt.Sprintf("%x", buf)
-	url = c.oauth2Config().AuthCodeURL(state, oauth2.SetAuthURLParam("response_type", c.OAuth.ResponseType))
+	url = c.OAuth2Config().AuthCodeURL(state, oauth2.SetAuthURLParam("response_type", c.OAuth.ResponseType))
 	return
 }
 
-func (c *Config) oauth2Config() *oauth2.Config {
+func (c *Config) OAuth2Config() *oauth2.Config {
 	return &oauth2.Config{
 		ClientID:     c.OAuth.ClientID,
 		ClientSecret: c.OAuth.ClientSecret,
-		RedirectURL:  c.redirectURL(),
+		RedirectURL:  c.RedirectURL(),
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  c.OAuth.AuthURL,
 			TokenURL: c.OAuth.TokenURL,
@@ -72,7 +72,7 @@ func (c *Config) oauth2Config() *oauth2.Config {
 	}
 }
 
-func (c *Config) redirectURL() string {
+func (c *Config) RedirectURL() string {
 	port := DefaultServerPort
 	if c.Server != nil && c.Server.Port > 0 {
 		port = c.Server.Port

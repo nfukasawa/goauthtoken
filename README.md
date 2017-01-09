@@ -9,8 +9,12 @@ Go1.8 or later
 ## Install
 
 ```
-go get github.com/nfukasawa/goauthtoken
+$ go get github.com/nfukasawa/goauthtoken
 ```
+
+## Preparation
+
+You need to add redirect URL "http://localhost:*port*" on authorization service setting.
 
 ## Usage
 
@@ -29,7 +33,7 @@ Help Options:
 
 Generate configuration template:
 ```
-goauthtoken -t > path/to/config.json
+$ goauthtoken -t > path/to/config.json
 ```
 
 Then, edit configuration file:
@@ -55,7 +59,7 @@ Then, edit configuration file:
 
 Run command:
 ```
-goauthtoken -c=path/to/config.json -s
+$ goauthtoken -c=path/to/config.json -s
 ```
 ## Lisence
 

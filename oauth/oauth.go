@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"net/url"
 
+	"path"
+
 	"github.com/skratchdot/open-golang/open"
 	"golang.org/x/oauth2"
 )
@@ -27,14 +29,18 @@ func Authorize(ctx context.Context, config *Config) (*Authorization, error) {
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			q := r.URL.Query()
 			s := q.Get("state")
+			b := path.Base(r.URL.Path)
 			switch {
-			case s == "":
-				w.Write([]byte(`<script>location.href = '/auth_result?' + location.hash.substring(1);</script>`))
 			case s == state:
 				w.Write([]byte(`<script>window.open('about:blank', '_self').close();</script>`))
 				queryCh <- q
+			case s == "" && (b == "/" || b == "."):
+				w.Write([]byte(`<script>location.href = '/auth_result?' + location.hash.substring(1);</script>`))
+			case s != state:
+				w.WriteHeader(400)
+				errorCh <- fmt.Errorf("invalid callback")
 			default:
-				errorCh <- fmt.Errorf("invalid state callback")
+				w.WriteHeader(404)
 			}
 		}),
 	}
@@ -62,14 +68,14 @@ func Authorize(ctx context.Context, config *Config) (*Authorization, error) {
 
 func Exchange(ctx context.Context, config *Config, code string) (*oauth2.Token, error) {
 	if code == "" {
-		return nil, fmt.Errorf("authorized code is empty")
+		return nil, fmt.Errorf("authorization code is empty")
 	}
-	return config.oauth2Config().Exchange(ctx, code)
+	return config.OAuth2Config().Exchange(ctx, code)
 }
 
 func Refresh(ctx context.Context, config *Config, token *oauth2.Token) (*oauth2.Token, error) {
 	if token == nil {
 		return nil, fmt.Errorf("token is empty")
 	}
-	return config.oauth2Config().TokenSource(ctx, token).Token()
+	return config.OAuth2Config().TokenSource(ctx, token).Token()
 }
